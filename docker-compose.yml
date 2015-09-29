@@ -2,7 +2,6 @@ proxy:
   image: littleqz/shadowsocks
   container_name: ss_proxy
   environment:
-    # - CONFIG_FILE=/config.json
     - SERVER=yourhost
     - SERVER_PORT=443
     - LOCAL_PORT=1080
