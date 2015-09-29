@@ -1,0 +1,15 @@
+proxy:
+  image: littleqz/shadowsocks
+  container_name: ss_proxy
+  environment:
+    # - CONFIG_FILE=/config.json
+    - SERVER=yourhost
+    - SERVER_PORT=443
+    - LOCAL_PORT=1080
+    - PASSWORD=default
+    - TIMEOUT=60
+    - METHOD=aes-256-cfb
+  expose:
+    - "1080"
+  ports:
+    - "1081:1080"
