@@ -1,10 +1,13 @@
-FROM littleqz/openwrt
+FROM alpine
 
-MAINTAINER littleqz <qizhihere@gmail.com>
+MAINTAINER littleqz <littleqz@gmail.com>
 
-RUN mkdir -p /var/lock && \
-    opkg update && \
-    opkg install shadowsocks-libev; return 0
+RUN echo 'http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
+    && apk add -U curl libsodium python \
+    && curl -sSL https://bootstrap.pypa.io/get-pip.py | python \
+    && pip install shadowsocks \
+    && apk del curl \
+    && rm -rf /var/cache/apk/*
 
 ENV SERVER 0.0.0.0
 ENV SERVER_PORT 998
@@ -13,11 +16,11 @@ ENV PASSWORD default
 ENV METHOD aes-256-cfb
 ENV TIMEOUT 300
 
-EXPOSE $LOCAL_PORT
+EXPOSE $SERVER_PORT
 
-CMD ss-redir -s "$SERVER" \
-             -p "$SERVER_PORT" \
-             -l "$LOCAL_PORT" \
-             -k "$PASSWORD" \
-             -m "$METHOD" \
-             -t "$TIMEOUT"
+CMD sslocal -s "$SERVER" \
+            -p "$SERVER_PORT" \
+            -l "$LOCAL_PORT" \
+            -k "$PASSWORD" \
+            -m "$METHOD" \
+            -t "$TIMEOUT"
