@@ -2,13 +2,13 @@ proxy:
   image: littleqz/shadowsocks
   container_name: ss_proxy
   environment:
-    - SERVER=yourhost
-    - SERVER_PORT=443
+    - SERVER=<your-server>
+    - SERVER_PORT=<port>
     - LOCAL_PORT=1080
-    - PASSWORD=default
+    - PASSWORD=<your-password>
     - TIMEOUT=60
     - METHOD=aes-256-cfb
   expose:
     - "1080"
   ports:
-    - "1081:1080"
+    - "1080:1080"
