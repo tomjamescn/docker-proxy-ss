@@ -25,4 +25,5 @@ CMD sslocal -s "$SERVER" \
             -b "$LOCAL_ADDR" \
             -k "$PASSWORD" \
             -m "$METHOD" \
-            -t "$TIMEOUT"
+            -t "$TIMEOUT" \
+            -vv
