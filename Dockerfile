@@ -3,27 +3,17 @@ FROM alpine
 MAINTAINER littleqz <littleqz@gmail.com>
 
 RUN echo 'http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
-    && apk add -U curl libsodium python \
+    && apk add -U vim net-tools iproute2  iputils curl lsof tzdata privoxy openrc libsodium python \
     && curl -sSL https://bootstrap.pypa.io/get-pip.py | python \
     && pip install shadowsocks \
-    && apk del curl \
     && rm -rf /var/cache/apk/*
 
-ENV SERVER 0.0.0.0
-ENV SERVER_PORT 998
-ENV LOCAL_PORT 1080
-ENV LOCAL_ADDR 0.0.0.0
-ENV PASSWORD default
-ENV METHOD aes-256-cfb
-ENV TIMEOUT 300
+#config timezone
+ENV TZ 'Asia/Shanghai'
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
+    apk del tzdata
 
-EXPOSE $LOCAL_PORT
+COPY content /
 
-CMD sslocal -s "$SERVER" \
-            -p "$SERVER_PORT" \
-            -l "$LOCAL_PORT" \
-            -b "$LOCAL_ADDR" \
-            -k "$PASSWORD" \
-            -m "$METHOD" \
-            -t "$TIMEOUT" \
-            -vv
+ENTRYPOINT ["/entrypoint.sh"]
