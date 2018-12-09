@@ -3,9 +3,9 @@ FROM alpine
 MAINTAINER littleqz <littleqz@gmail.com>
 
 RUN echo 'http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
-    && apk add -U vim net-tools iproute2  iputils curl lsof tzdata privoxy openrc libsodium python \
+    && apk add -U vim net-tools iproute2  iputils curl lsof tzdata privoxy openrc libsodium python git \
     && curl -sSL https://bootstrap.pypa.io/get-pip.py | python \
-    && pip install shadowsocks \
+    && pip install --upgrade git+https://github.com/shadowsocks/shadowsocks.git@master \
     && rm -rf /var/cache/apk/*
 
 #config timezone
